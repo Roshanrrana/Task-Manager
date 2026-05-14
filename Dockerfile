@@ -20,6 +20,7 @@ COPY backend/ ./
 COPY --from=frontend-build /app/frontend/dist ./public
 
 ENV NODE_ENV=production
+EXPOSE 8080
 
-# Railway sets PORT at runtime; local default is 5000
+# Railway sets PORT at runtime; 8080 matches Railway's default container port.
 CMD ["node", "server.js"]
