@@ -13,6 +13,11 @@ connectDB();
 
 const app = express();
 
+// Liveness probe (Railway, etc.) — must not depend on MongoDB
+app.get('/health', (_req, res) => {
+  res.status(200).type('text/plain').send('ok');
+});
+
 // When deployed on Vercel Services, the API is mounted under routePrefix /_/backend — strip it so routes stay /api/...
 app.use((req, res, next) => {
   const prefix = '/_/backend';
@@ -84,8 +89,8 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server listening on 0.0.0.0:${PORT} (required for Docker / Railway health checks)`);
     console.log(`TaskFlow server build: mongo-health-v2 (GET /api/health includes "mongo" + "_healthVersion")`);
   });
 }

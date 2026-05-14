@@ -15,8 +15,9 @@ const connectDB = async () => {
       `MongoDB connected: ${conn.connection.host} (database: ${conn.connection.name})`
     );
   } catch (error) {
-    console.error(`Error: ${error.message}`);
-    process.exit(1);
+    console.error(`MongoDB connection error: ${error.message}`);
+    // Do not exit — keeps the process alive for load balancers / Railway health checks
+    // while you fix MONGO_URI or Atlas network access. API routes will fail until connected.
   }
 };
 

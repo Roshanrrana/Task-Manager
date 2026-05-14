@@ -28,7 +28,7 @@ Railway often **fails** if it builds from the **repo root** (root `package.json`
 This repo includes:
 
 - **`Dockerfile`** at the **root** — builds only **`backend/`** and runs `node server.js`.
-- **`railway.toml`** — tells Railway to use that Dockerfile and a **`/api/health`** check.
+- **`railway.toml`** — Docker build + **`GET /health`** probe (does not require MongoDB).
 
 **In Railway → your service → Settings:**
 
@@ -36,6 +36,8 @@ This repo includes:
    - **Recommended:** leave **empty** (clone root) so Railway uses the **root** `Dockerfile` + `railway.toml`, **or**  
    - Set **`backend`** as the root and use **Settings → Docker** / Dockerfile path **`Dockerfile`** inside that folder (this repo includes **`backend/Dockerfile`** for that layout).
 2. **Variables:** `MONGO_URI`, `JWT_SECRET`; **`PORT`** is set by Railway. Set **`CLIENT_ORIGINS`** to your frontend origin (e.g. Vercel URL) if the UI is on another domain.
+
+The server binds **`0.0.0.0:$PORT`** (needed for container health checks). If Mongo misconnects, the process **stays up** so you can read logs and use **`/api/health`** for DB status; fix **`MONGO_URI`** / Atlas **Network Access** (`0.0.0.0/0` for hosted APIs) as needed.
 
 ---
 
