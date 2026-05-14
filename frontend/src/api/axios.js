@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Local dev: unset → '/api' (Vite proxy → backend). Production: set VITE_API_URL to your deployed API root, e.g. https://your-api.onrender.com/api
+// Local dev uses '/api'. Production can set VITE_API_URL to a deployed API root.
 const baseURL = (import.meta.env.VITE_API_URL && String(import.meta.env.VITE_API_URL).trim()) || '/api';
 
 const API = axios.create({
@@ -10,7 +10,6 @@ const API = axios.create({
   },
 });
 
-// Request interceptor to attach JWT token
 API.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('taskflow_token');
@@ -19,12 +18,9 @@ API.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response interceptor for 401 handling
 API.interceptors.response.use(
   (response) => response,
   (error) => {
