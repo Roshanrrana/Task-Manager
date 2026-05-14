@@ -13,6 +13,19 @@ connectDB();
 
 const app = express();
 
+// When deployed on Vercel Services, the API is mounted under routePrefix /_/backend — strip it so routes stay /api/...
+app.use((req, res, next) => {
+  const prefix = '/_/backend';
+  const full = req.originalUrl || '';
+  const pathOnly = full.split('?')[0];
+  const query = full.includes('?') ? `?${full.split('?').slice(1).join('?')}` : '';
+  if (pathOnly === prefix || pathOnly.startsWith(`${prefix}/`)) {
+    const rest = pathOnly.slice(prefix.length) || '/';
+    req.url = rest + query;
+  }
+  next();
+});
+
 // CORS: set CLIENT_ORIGINS in production (comma-separated), e.g. https://your-app.vercel.app,https://www.yourdomain.com
 const parseOrigins = () => {
   const raw = process.env.CLIENT_ORIGINS;
@@ -70,7 +83,11 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`TaskFlow server build: mongo-health-v2 (GET /api/health includes "mongo" + "_healthVersion")`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`TaskFlow server build: mongo-health-v2 (GET /api/health includes "mongo" + "_healthVersion")`);
+  });
+}
+
+module.exports = app;

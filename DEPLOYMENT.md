@@ -2,6 +2,23 @@
 
 This app is **split**: React UI (static) + Node API + MongoDB. The UI talks to the API using a **full URL** in production (`VITE_API_URL`). The API talks to MongoDB using **`MONGO_URI`** (Atlas in production).
 
+## 0. Vercel (monorepo: frontend + backend “Services”)
+
+If Vercel shows **“vercel.json required to deploy projects with multiple services”**, use the **root** `vercel.json` in this repo (it defines `experimentalServices` for `frontend/` and `backend/`).
+
+1. Connect the **Git repo** with root at the folder that contains **`vercel.json`**, **`frontend/`**, and **`backend/`**.
+2. In the Vercel project, set the **framework / preset** to **Services** (or accept Vercel’s detection) so it picks up **`experimentalServices`**.
+3. **Environment variables**
+   - **Backend (Express)** — add at least: **`MONGO_URI`**, **`JWT_SECRET`**, **`CLIENT_ORIGINS`**.  
+     **`CLIENT_ORIGINS`** must be your real site origin(s), e.g. `https://your-app.vercel.app` (no trailing slash). Multiple origins: comma-separated.
+   - **Frontend (Vite build)** — set **`VITE_API_URL`** to your API base on the **same** deployment:  
+     `https://YOUR-APP.vercel.app/_/backend/api`  
+     (That path matches the backend **`routePrefix`** `/_/backend` plus your Express routes under **`/api`**.)
+
+Redeploy the **frontend** after any change to **`VITE_API_URL`** (Vite bakes it in at build time).
+
+**Simpler alternative (no Services):** deploy only the UI on Vercel: set **Root Directory** to **`frontend`**, deploy the API on **Render** or **Railway**, and set **`VITE_API_URL`** to that API’s public URL (see §3). You can ignore root `vercel.json` for that layout (or remove it in a branch if Vercel keeps detecting Services).
+
 ---
 
 ## 1. MongoDB Atlas (database in the cloud)
