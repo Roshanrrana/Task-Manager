@@ -6,16 +6,21 @@ const redactMongoUri = (uri) => {
   return uri.replace(/:([^@/]+)@/, ':***@');
 };
 
+const getMongoUri = () =>
+  process.env.MONGO_URI || process.env.MONGODB_URI || process.env.MONGO_URL;
+
 const connectDB = async () => {
   try {
-    if (!process.env.MONGO_URI) {
-      console.error('MongoDB connection error: MONGO_URI is not set');
+    const mongoUri = getMongoUri();
+
+    if (!mongoUri) {
+      console.error('MongoDB connection error: no Mongo connection string found. Set MONGO_URI, MONGODB_URI, or MONGO_URL.');
       return;
     }
 
-    console.log(`MONGO_URI in use: ${redactMongoUri(process.env.MONGO_URI)}`);
+    console.log(`Mongo connection string in use: ${redactMongoUri(mongoUri)}`);
 
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
+    const conn = await mongoose.connect(mongoUri, {
       serverSelectionTimeoutMS: 5000,
     });
     console.log(
@@ -28,4 +33,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB;
+module.exports = { connectDB, getMongoUri };

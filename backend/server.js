@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const connectDB = require('./config/db');
+const { connectDB, getMongoUri } = require('./config/db');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 
 // Load env vars — override: true so backend/.env wins over a stale MONGO_URI in the OS/shell (common cause of "Atlas empty but login works").
@@ -76,7 +76,7 @@ const requireDatabase = (_req, res, next) => {
   }
 
   return res.status(503).json({
-    message: 'Database connection unavailable. Check MONGO_URI and MongoDB Atlas Network Access in Railway variables.',
+    message: 'Database connection unavailable. Set MONGO_URI, MONGODB_URI, or MONGO_URL in Railway variables and check MongoDB Atlas Network Access.',
     mongo: {
       connected: false,
       readyState: mongoose.connection.readyState,
@@ -107,7 +107,8 @@ app.get('/api/health', (req, res) => {
     mongo: {
       connected: mongoReady,
       readyState: mongoose.connection.readyState,
-      hasMongoUri: Boolean(process.env.MONGO_URI),
+      hasMongoUri: Boolean(getMongoUri()),
+      acceptedEnvVars: ['MONGO_URI', 'MONGODB_URI', 'MONGO_URL'],
       host: mongoReady ? mongoose.connection.host : null,
       database: mongoReady ? mongoose.connection.name : null,
     },
