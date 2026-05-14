@@ -21,6 +21,24 @@ Redeploy the **frontend** after any change to **`VITE_API_URL`** (Vite bakes it 
 
 ---
 
+## 0b. Railway (API from this monorepo)
+
+Railway often **fails** if it builds from the **repo root** (root `package.json` has no API **`start`** script).
+
+This repo includes:
+
+- **`Dockerfile`** at the **root** — builds only **`backend/`** and runs `node server.js`.
+- **`railway.toml`** — tells Railway to use that Dockerfile and a **`/api/health`** check.
+
+**In Railway → your service → Settings:**
+
+1. **Root Directory:**  
+   - **Recommended:** leave **empty** (clone root) so Railway uses the **root** `Dockerfile` + `railway.toml`, **or**  
+   - Set **`backend`** as the root and use **Settings → Docker** / Dockerfile path **`Dockerfile`** inside that folder (this repo includes **`backend/Dockerfile`** for that layout).
+2. **Variables:** `MONGO_URI`, `JWT_SECRET`; **`PORT`** is set by Railway. Set **`CLIENT_ORIGINS`** to your frontend origin (e.g. Vercel URL) if the UI is on another domain.
+
+---
+
 ## 1. MongoDB Atlas (database in the cloud)
 
 ### Create the cluster
