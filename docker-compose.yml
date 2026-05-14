@@ -1,0 +1,14 @@
+# Local MongoDB for TaskFlow — run from repo root: docker compose up -d
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - taskflow_mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: taskflow
+
+volumes:
+  taskflow_mongo_data:
