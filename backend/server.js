@@ -1,5 +1,7 @@
 const express = require('express');
+const fs = require('fs');
 const mongoose = require('mongoose');
+const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -13,7 +15,7 @@ connectDB();
 
 const app = express();
 
-app.get('/', (_req, res) => {
+app.get('/api', (_req, res) => {
   res.status(200).json({
     message: 'TaskFlow API is running',
     health: '/api/health',
@@ -95,6 +97,22 @@ app.get('/api/health', (req, res) => {
     },
   });
 });
+
+const staticDir =
+  [path.join(__dirname, 'public'), path.join(__dirname, '..', 'frontend', 'dist')]
+    .find((candidate) => fs.existsSync(path.join(candidate, 'index.html')));
+const indexFile = staticDir ? path.join(staticDir, 'index.html') : null;
+
+if (staticDir && indexFile) {
+  app.use(express.static(staticDir));
+
+  app.use((req, res, next) => {
+    if (req.method !== 'GET' || req.path.startsWith('/api') || req.path === '/health') {
+      return next();
+    }
+    return res.sendFile(indexFile);
+  });
+}
 
 // Error handling
 app.use(notFound);
