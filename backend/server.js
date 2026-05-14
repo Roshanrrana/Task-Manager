@@ -70,17 +70,31 @@ const corsOptions = {
   },
 };
 
+const requireDatabase = (_req, res, next) => {
+  if (mongoose.connection.readyState === 1) {
+    return next();
+  }
+
+  return res.status(503).json({
+    message: 'Database connection unavailable. Check MONGO_URI and MongoDB Atlas Network Access in Railway variables.',
+    mongo: {
+      connected: false,
+      readyState: mongoose.connection.readyState,
+    },
+  });
+};
+
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/projects', require('./routes/projectRoutes'));
-app.use('/api/tasks', require('./routes/taskRoutes'));
-app.use('/api/dashboard', require('./routes/dashboardRoutes'));
+app.use('/api/auth', requireDatabase, require('./routes/authRoutes'));
+app.use('/api/users', requireDatabase, require('./routes/userRoutes'));
+app.use('/api/projects', requireDatabase, require('./routes/projectRoutes'));
+app.use('/api/tasks', requireDatabase, require('./routes/taskRoutes'));
+app.use('/api/dashboard', requireDatabase, require('./routes/dashboardRoutes'));
 
 // Health check — includes which MongoDB the process is using (helps Atlas vs local / taskflow vs test).
 app.get('/api/health', (req, res) => {
@@ -92,6 +106,8 @@ app.get('/api/health', (req, res) => {
     message: 'TaskFlow API is running',
     mongo: {
       connected: mongoReady,
+      readyState: mongoose.connection.readyState,
+      hasMongoUri: Boolean(process.env.MONGO_URI),
       host: mongoReady ? mongoose.connection.host : null,
       database: mongoReady ? mongoose.connection.name : null,
     },
