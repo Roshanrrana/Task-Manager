@@ -13,6 +13,20 @@ connectDB();
 
 const app = express();
 
+app.get('/', (_req, res) => {
+  res.status(200).json({
+    message: 'TaskFlow API is running',
+    health: '/api/health',
+    routes: {
+      auth: '/api/auth',
+      users: '/api/users',
+      projects: '/api/projects',
+      tasks: '/api/tasks',
+      dashboard: '/api/dashboard',
+    },
+  });
+});
+
 // Liveness probe (Railway, etc.) — must not depend on MongoDB
 app.get('/health', (_req, res) => {
   res.status(200).type('text/plain').send('ok');
