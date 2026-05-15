@@ -47,7 +47,7 @@ const SignupPage = () => {
     <>
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-dark-50">Create account</h2>
-        <p className="text-dark-400 mt-1">Get started with TaskFlow</p>
+        <p className="mt-1 text-dark-500">Set up your TaskPilot workspace</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -63,7 +63,7 @@ const SignupPage = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="John Doe"
-              className="w-full pl-10 pr-4 py-2.5 bg-dark-800 border border-dark-700 rounded-xl text-dark-100 placeholder-dark-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all"
+              className="w-full rounded-lg border border-dark-800 bg-dark-950 py-2.5 pl-10 pr-4 text-dark-100 placeholder-dark-600 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
             />
           </div>
         </div>
@@ -80,7 +80,7 @@ const SignupPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full pl-10 pr-4 py-2.5 bg-dark-800 border border-dark-700 rounded-xl text-dark-100 placeholder-dark-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all"
+              className="w-full rounded-lg border border-dark-800 bg-dark-950 py-2.5 pl-10 pr-4 text-dark-100 placeholder-dark-600 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
             />
           </div>
         </div>
@@ -97,7 +97,7 @@ const SignupPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Min 6 characters"
-              className="w-full pl-10 pr-10 py-2.5 bg-dark-800 border border-dark-700 rounded-xl text-dark-100 placeholder-dark-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all"
+              className="w-full rounded-lg border border-dark-800 bg-dark-950 py-2.5 pl-10 pr-10 text-dark-100 placeholder-dark-600 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
             />
             <button
               type="button"
@@ -119,7 +119,7 @@ const SignupPage = () => {
               id="signup-role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-dark-800 border border-dark-700 rounded-xl text-dark-100 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all appearance-none cursor-pointer"
+              className="w-full cursor-pointer appearance-none rounded-lg border border-dark-800 bg-dark-950 py-2.5 pl-10 pr-4 text-dark-100 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
             >
               <option value="member">Member</option>
               <option value="admin">Admin</option>
@@ -131,11 +131,11 @@ const SignupPage = () => {
           id="signup-submit"
           type="submit"
           disabled={loading}
-          className="w-full py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-medium rounded-xl shadow-lg shadow-primary-500/25 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.01] active:scale-[0.99]"
+          className="w-full rounded-lg bg-primary-700 py-2.5 font-medium text-white shadow-sm transition-all duration-200 hover:bg-primary-600 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-white"></div>
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"></div>
               Creating account...
             </span>
           ) : (
@@ -146,7 +146,7 @@ const SignupPage = () => {
 
       <p className="text-center text-dark-500 text-sm mt-6">
         Already have an account?{' '}
-        <Link to="/login" className="text-primary-400 hover:text-primary-300 font-medium transition-colors">
+        <Link to="/login" className="font-medium text-primary-700 transition-colors hover:text-primary-600">
           Sign in
         </Link>
       </p>

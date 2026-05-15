@@ -26,20 +26,21 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-dark-50/35 backdrop-blur-sm"
         onClick={onClose}
       ></div>
 
       {/* Modal */}
       <div
-        className={`relative ${sizes[size]} w-full bg-dark-800 border border-dark-700 rounded-2xl shadow-2xl transform transition-all animate-in fade-in zoom-in duration-200`}
+        className={`relative ${sizes[size]} w-full transform rounded-lg border border-dark-800 bg-dark-900 shadow-2xl shadow-dark-50/20 transition-all animate-in fade-in zoom-in duration-200`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-dark-700">
+        <div className="flex items-center justify-between border-b border-dark-800 px-6 py-5">
           <h2 className="text-xl font-semibold text-dark-50">{title}</h2>
           <button
             onClick={onClose}
-            className="p-2 text-dark-400 hover:text-dark-200 hover:bg-dark-700 rounded-lg transition-colors"
+            className="grid h-9 w-9 place-items-center rounded-lg text-dark-400 transition-colors hover:bg-dark-950 hover:text-dark-100"
+            aria-label="Close modal"
           >
             <IoClose size={20} />
           </button>

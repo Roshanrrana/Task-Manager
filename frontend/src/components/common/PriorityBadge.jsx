@@ -1,23 +1,23 @@
 const PriorityBadge = ({ priority }) => {
   const styles = {
-    high: 'bg-red-500/20 text-red-300 border border-red-500/30',
-    medium: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
-    low: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+    high: 'bg-rose-100 text-rose-800 border border-rose-200',
+    medium: 'bg-orange-100 text-orange-800 border border-orange-200',
+    low: 'bg-emerald-100 text-emerald-800 border border-emerald-200',
   };
 
   const icons = {
-    high: '↑↑',
-    medium: '→',
-    low: '↓',
+    high: '!',
+    medium: '=',
+    low: 'v',
   };
 
   return (
     <span
-      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${
-        styles[priority] || 'bg-dark-700 text-dark-300'
+      className={`inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-semibold ${
+        styles[priority] || 'bg-dark-800 text-dark-300'
       }`}
     >
-      <span>{icons[priority]}</span>
+      <span className="font-bold">{icons[priority]}</span>
       {priority.charAt(0).toUpperCase() + priority.slice(1)}
     </span>
   );

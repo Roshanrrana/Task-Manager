@@ -1,9 +1,9 @@
 const StatusBadge = ({ status }) => {
   const styles = {
-    todo: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30',
-    'in-progress': 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
-    completed: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
-    active: 'bg-blue-500/20 text-blue-300 border border-blue-500/30',
+    todo: 'bg-slate-100 text-slate-700 border border-slate-200',
+    'in-progress': 'bg-amber-100 text-amber-800 border border-amber-200',
+    completed: 'bg-emerald-100 text-emerald-800 border border-emerald-200',
+    active: 'bg-primary-50 text-primary-800 border border-primary-200',
   };
 
   const labels = {
@@ -15,8 +15,8 @@ const StatusBadge = ({ status }) => {
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-        styles[status] || 'bg-dark-700 text-dark-300'
+      className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold ${
+        styles[status] || 'bg-dark-800 text-dark-300'
       }`}
     >
       {labels[status] || status}

@@ -85,12 +85,12 @@ const ProjectDetailPage = () => {
 
   return (
     <div className="space-y-6">
-      <button onClick={() => navigate('/projects')} className="flex items-center gap-2 text-dark-400 hover:text-dark-200 transition-colors text-sm">
+      <button onClick={() => navigate('/projects')} className="flex items-center gap-2 rounded-lg border border-dark-800 bg-dark-900 px-3 py-2 text-sm text-dark-400 shadow-sm transition-colors hover:border-primary-200 hover:text-primary-700">
         <IoArrowBackOutline size={16} /> Back to Projects
       </button>
 
       {/* Project Header */}
-      <div className="bg-dark-900 border border-dark-800 rounded-2xl p-6">
+      <div className="rounded-lg border border-dark-800 bg-dark-900 p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
@@ -102,10 +102,10 @@ const ProjectDetailPage = () => {
           </div>
           {isAdmin && (
             <div className="flex gap-2">
-              <button onClick={() => setShowMemberModal(true)} className="flex items-center gap-1.5 px-3 py-2 text-sm bg-dark-800 hover:bg-dark-700 text-dark-300 rounded-xl transition-colors">
+              <button onClick={() => setShowMemberModal(true)} className="flex items-center gap-1.5 rounded-lg border border-dark-800 bg-dark-950 px-3 py-2 text-sm text-dark-300 transition-colors hover:border-primary-200 hover:text-primary-700">
                 <IoPersonAddOutline size={16} /> Members
               </button>
-              <button onClick={() => setShowTaskModal(true)} className="flex items-center gap-1.5 px-3 py-2 text-sm bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl shadow-lg shadow-primary-500/25 transition-all hover:scale-[1.02]">
+              <button onClick={() => setShowTaskModal(true)} className="flex items-center gap-1.5 rounded-lg bg-primary-700 px-3 py-2 text-sm text-white shadow-sm transition-colors hover:bg-primary-600">
                 <IoAddOutline size={16} /> Add Task
               </button>
             </div>
@@ -117,14 +117,14 @@ const ProjectDetailPage = () => {
           <p className="text-sm text-dark-500 mb-2">Team Members ({project.members?.length || 0})</p>
           <div className="flex flex-wrap gap-2">
             {project.members?.map(m => (
-              <div key={m._id} className="flex items-center gap-2 px-3 py-1.5 bg-dark-800 rounded-lg">
-                <div className="w-6 h-6 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-[10px] font-bold text-white">
+              <div key={m._id} className="flex items-center gap-2 rounded-lg bg-dark-950 px-3 py-1.5">
+                <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary-100 text-[10px] font-bold text-primary-800">
                   {m.name?.charAt(0)?.toUpperCase()}
                 </div>
                 <span className="text-sm text-dark-300">{m.name}</span>
                 <span className="text-[10px] text-dark-500 capitalize">({m.role})</span>
                 {isAdmin && (
-                  <button onClick={() => handleRemoveMember(m._id)} className="text-dark-600 hover:text-red-400 ml-1 transition-colors">×</button>
+                  <button onClick={() => handleRemoveMember(m._id)} className="ml-1 text-dark-600 transition-colors hover:text-red-600">x</button>
                 )}
               </div>
             ))}
@@ -134,32 +134,32 @@ const ProjectDetailPage = () => {
       </div>
 
       {/* Tasks */}
-      <div className="bg-dark-900 border border-dark-800 rounded-2xl p-6">
+      <div className="rounded-lg border border-dark-800 bg-dark-900 p-6 shadow-sm">
         <h3 className="text-lg font-semibold text-dark-100 mb-4">Tasks ({tasks.length})</h3>
         {tasks.length === 0 ? (
           <p className="text-dark-500 text-center py-8">No tasks yet</p>
         ) : (
           <div className="space-y-3">
             {tasks.map(task => (
-              <div key={task._id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-dark-800/50 rounded-xl hover:bg-dark-800 transition-colors gap-3">
+              <div key={task._id} className="flex flex-col justify-between gap-3 rounded-lg bg-dark-950 p-4 transition-colors hover:bg-primary-50 sm:flex-row sm:items-center">
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-dark-200">{task.title}</p>
                   <div className="flex flex-wrap items-center gap-2 mt-1">
                     <span className="text-xs text-dark-500">Assigned: {task.assignedTo?.name || 'Unassigned'}</span>
-                    <span className="text-xs text-dark-600">•</span>
+                    <span className="text-xs text-dark-600">/</span>
                     <span className="text-xs text-dark-500">Due: {new Date(task.dueDate).toLocaleDateString()}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <PriorityBadge priority={task.priority} />
                   <select value={task.status} onChange={e => handleStatusChange(task._id, e.target.value)}
-                    className="px-2 py-1 bg-dark-700 border border-dark-600 rounded-lg text-xs text-dark-200 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    className="rounded-md border border-dark-800 bg-dark-900 px-2 py-1 text-xs text-dark-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20">
                     <option value="todo">Todo</option>
                     <option value="in-progress">In Progress</option>
                     <option value="completed">Completed</option>
                   </select>
                   {isAdmin && (
-                    <button onClick={() => handleDeleteTask(task._id)} className="p-1.5 text-dark-500 hover:text-red-400 hover:bg-dark-700 rounded-lg transition-colors">
+                    <button onClick={() => handleDeleteTask(task._id)} className="rounded-md p-1.5 text-dark-500 transition-colors hover:bg-red-50 hover:text-red-600">
                       <IoTrashOutline size={16} />
                     </button>
                   )}
@@ -176,18 +176,18 @@ const ProjectDetailPage = () => {
           <div>
             <label className="block text-sm font-medium text-dark-300 mb-1.5">Title</label>
             <input value={taskForm.title} onChange={e => setTaskForm({ ...taskForm, title: e.target.value })} placeholder="Task title"
-              className="w-full px-4 py-2.5 bg-dark-800 border border-dark-700 rounded-xl text-dark-100 placeholder-dark-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all" />
+              className="w-full rounded-lg border border-dark-800 bg-dark-950 px-4 py-2.5 text-dark-100 placeholder-dark-600 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20" />
           </div>
           <div>
             <label className="block text-sm font-medium text-dark-300 mb-1.5">Description</label>
             <textarea value={taskForm.description} onChange={e => setTaskForm({ ...taskForm, description: e.target.value })} rows={2}
-              className="w-full px-4 py-2.5 bg-dark-800 border border-dark-700 rounded-xl text-dark-100 placeholder-dark-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all resize-none" />
+              className="w-full resize-none rounded-lg border border-dark-800 bg-dark-950 px-4 py-2.5 text-dark-100 placeholder-dark-600 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20" />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="block text-sm font-medium text-dark-300 mb-1.5">Assign To</label>
               <select value={taskForm.assignedTo} onChange={e => setTaskForm({ ...taskForm, assignedTo: e.target.value })}
-                className="w-full px-4 py-2.5 bg-dark-800 border border-dark-700 rounded-xl text-dark-100 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
+                className="w-full rounded-lg border border-dark-800 bg-dark-950 px-4 py-2.5 text-dark-100 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20">
                 <option value="">Unassigned</option>
                 {project.members?.map(m => <option key={m._id} value={m._id}>{m.name}</option>)}
               </select>
@@ -195,7 +195,7 @@ const ProjectDetailPage = () => {
             <div>
               <label className="block text-sm font-medium text-dark-300 mb-1.5">Priority</label>
               <select value={taskForm.priority} onChange={e => setTaskForm({ ...taskForm, priority: e.target.value })}
-                className="w-full px-4 py-2.5 bg-dark-800 border border-dark-700 rounded-xl text-dark-100 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
+                className="w-full rounded-lg border border-dark-800 bg-dark-950 px-4 py-2.5 text-dark-100 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20">
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
@@ -205,10 +205,10 @@ const ProjectDetailPage = () => {
           <div>
             <label className="block text-sm font-medium text-dark-300 mb-1.5">Due Date</label>
             <input type="date" value={taskForm.dueDate} onChange={e => setTaskForm({ ...taskForm, dueDate: e.target.value })}
-              className="w-full px-4 py-2.5 bg-dark-800 border border-dark-700 rounded-xl text-dark-100 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all" />
+              className="w-full rounded-lg border border-dark-800 bg-dark-950 px-4 py-2.5 text-dark-100 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20" />
           </div>
           <button type="submit" disabled={submitting}
-            className="w-full py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white font-medium rounded-xl shadow-lg shadow-primary-500/25 transition-all disabled:opacity-50">
+            className="w-full rounded-lg bg-primary-700 py-2.5 font-medium text-white shadow-sm transition-colors hover:bg-primary-600 disabled:opacity-50">
             {submitting ? 'Creating...' : 'Create Task'}
           </button>
         </form>
@@ -222,9 +222,9 @@ const ProjectDetailPage = () => {
               <p className="text-sm font-medium text-dark-300 mb-2">Add Members</p>
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {nonMembers.map(u => (
-                  <div key={u._id} className="flex items-center justify-between p-3 bg-dark-800/50 rounded-xl">
+                  <div key={u._id} className="flex items-center justify-between rounded-lg bg-dark-950 p-3">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-xs font-bold text-white">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary-100 text-xs font-bold text-primary-800">
                         {u.name?.charAt(0)?.toUpperCase()}
                       </div>
                       <div>
@@ -232,7 +232,7 @@ const ProjectDetailPage = () => {
                         <p className="text-xs text-dark-500">{u.email}</p>
                       </div>
                     </div>
-                    <button onClick={() => handleAddMember(u._id)} className="px-3 py-1 text-xs bg-primary-600 hover:bg-primary-500 text-white rounded-lg transition-colors">Add</button>
+                    <button onClick={() => handleAddMember(u._id)} className="rounded-md bg-primary-700 px-3 py-1 text-xs text-white transition-colors hover:bg-primary-600">Add</button>
                   </div>
                 ))}
               </div>
@@ -242,9 +242,9 @@ const ProjectDetailPage = () => {
             <p className="text-sm font-medium text-dark-300 mb-2">Current Members ({project.members?.length || 0})</p>
             <div className="space-y-2">
               {project.members?.map(m => (
-                <div key={m._id} className="flex items-center justify-between p-3 bg-dark-800/50 rounded-xl">
+                <div key={m._id} className="flex items-center justify-between rounded-lg bg-dark-950 p-3">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-xs font-bold text-white">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-100 text-xs font-bold text-emerald-800">
                       {m.name?.charAt(0)?.toUpperCase()}
                     </div>
                     <div>
@@ -252,7 +252,7 @@ const ProjectDetailPage = () => {
                       <p className="text-xs text-dark-500 capitalize">{m.role}</p>
                     </div>
                   </div>
-                  <button onClick={() => handleRemoveMember(m._id)} className="px-3 py-1 text-xs bg-red-600/20 text-red-400 hover:bg-red-600/30 rounded-lg transition-colors">Remove</button>
+                  <button onClick={() => handleRemoveMember(m._id)} className="rounded-md bg-red-50 px-3 py-1 text-xs text-red-600 transition-colors hover:bg-red-100">Remove</button>
                 </div>
               ))}
             </div>

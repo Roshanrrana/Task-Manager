@@ -16,20 +16,20 @@ const DashboardLayout = () => {
 
   const getPageTitle = () => {
     if (location.pathname.startsWith('/projects/')) return 'Project Details';
-    return pageTitles[location.pathname] || 'TaskFlow';
+    return pageTitles[location.pathname] || 'TaskPilot';
   };
 
   return (
-    <div className="min-h-screen bg-dark-950">
+    <div className="min-h-screen bg-dark-950 text-dark-100">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="lg:ml-[260px] min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <Navbar
           onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
           pageTitle={getPageTitle()}
         />
 
-        <main className="flex-1 p-4 lg:p-6">
+        <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 lg:px-8 lg:py-8">
           <Outlet />
         </main>
       </div>

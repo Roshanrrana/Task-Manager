@@ -7,8 +7,8 @@ import {
   IoPersonOutline,
   IoLogOutOutline,
   IoCloseOutline,
+  IoGitNetworkOutline,
 } from 'react-icons/io5';
-import { HiOutlineSparkles } from 'react-icons/hi2';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const { user, logout } = useAuth();
@@ -25,53 +25,56 @@ const Sidebar = ({ isOpen, onClose }) => {
       {/* Mobile overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 z-40 bg-dark-50/35 backdrop-blur-sm lg:hidden"
           onClick={onClose}
         ></div>
       )}
 
-      {/* Sidebar */}
+      {/* Mobile drawer */}
       <aside
-        className={`fixed top-0 left-0 h-full w-[260px] bg-dark-900 border-r border-dark-800 z-50 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed right-0 top-0 z-50 flex h-full w-[min(88vw,340px)] flex-col border-l border-dark-800 bg-dark-900 shadow-2xl shadow-dark-50/20 transition-transform duration-300 ease-in-out lg:hidden ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between h-16 px-5 border-b border-dark-800">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center">
-              <HiOutlineSparkles className="text-white text-lg" />
+        <div className="flex h-16 items-center justify-between border-b border-dark-800 px-5">
+          <div className="flex items-center gap-3">
+            <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary-700 text-white">
+              <IoGitNetworkOutline size={18} />
             </div>
-            <span className="text-lg font-bold bg-gradient-to-r from-primary-400 to-primary-200 bg-clip-text text-transparent">
-              TaskFlow
-            </span>
+            <div>
+              <span className="block text-lg font-bold text-dark-50">TaskPilot</span>
+              <span className="text-xs font-medium uppercase text-dark-500">Focus desk</span>
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="lg:hidden p-1.5 text-dark-400 hover:text-dark-200 hover:bg-dark-800 rounded-lg transition-colors"
+            className="grid h-9 w-9 place-items-center rounded-lg border border-dark-800 text-dark-400 transition-colors hover:border-primary-300 hover:text-primary-700"
+            aria-label="Close navigation"
           >
             <IoCloseOutline size={20} />
           </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 space-y-2 overflow-y-auto px-4 py-5">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
+              end={item.to === '/dashboard'}
               onClick={onClose}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
+                `group flex items-center gap-3 rounded-lg px-3.5 py-3 text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-primary-500/15 text-primary-300 shadow-sm shadow-primary-500/10'
-                    : 'text-dark-400 hover:text-dark-200 hover:bg-dark-800'
+                    ? 'bg-primary-700 text-white shadow-sm'
+                    : 'text-dark-400 hover:bg-dark-950 hover:text-dark-100'
                 }`
               }
             >
               <item.icon
                 size={20}
-                className="shrink-0 transition-transform duration-200 group-hover:scale-110"
+                className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5"
               />
               {item.label}
             </NavLink>
@@ -79,22 +82,22 @@ const Sidebar = ({ isOpen, onClose }) => {
         </nav>
 
         {/* User Section */}
-        <div className="p-3 border-t border-dark-800">
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-dark-800/50">
-            <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center shrink-0">
-              <span className="text-sm font-bold text-white">
+        <div className="border-t border-dark-800 p-4">
+          <div className="flex items-center gap-3 rounded-lg bg-dark-950 p-3">
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-primary-100 text-primary-800">
+              <span className="text-sm font-bold">
                 {user?.name?.charAt(0)?.toUpperCase() || 'U'}
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-dark-100 truncate">
+              <p className="truncate text-sm font-medium text-dark-100">
                 {user?.name}
               </p>
-              <p className="text-xs text-dark-500 capitalize">{user?.role}</p>
+              <p className="text-xs capitalize text-dark-500">{user?.role}</p>
             </div>
             <button
               onClick={logout}
-              className="p-1.5 text-dark-500 hover:text-red-400 hover:bg-dark-700 rounded-lg transition-colors"
+              className="grid h-9 w-9 place-items-center rounded-lg text-dark-500 transition-colors hover:bg-red-50 hover:text-red-600"
               title="Logout"
             >
               <IoLogOutOutline size={18} />

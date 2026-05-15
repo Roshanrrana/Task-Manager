@@ -1,4 +1,4 @@
-# TaskFlow — deploy anywhere (Atlas, API host, static UI)
+# TaskPilot — deploy anywhere (Atlas, API host, static UI)
 
 This app is **split**: React UI (static) + Node API + MongoDB. The UI talks to the API using a **full URL** in production (`VITE_API_URL`). The API talks to MongoDB using **`MONGO_URI`** (Atlas in production).
 
@@ -46,16 +46,16 @@ The server binds **`0.0.0.0:$PORT`** (needed for container health checks). If Mo
 ### Create the cluster
 
 1. Go to [https://www.mongodb.com/atlas](https://www.mongodb.com/atlas) and sign in (or register).
-2. Create a **project** (any name, e.g. `TaskFlow`).
+2. Create a **project** (any name, e.g. `TaskPilot`).
 3. **Build a database** → choose **M0 Free** → pick a **region** close to where your API will run (e.g. same as Render/Railway region).
-4. Finish cluster creation (name it e.g. `TaskFlowCluster`).
+4. Finish cluster creation (name it e.g. `TaskPilotCluster`).
 
 ### Database user (username + password)
 
 1. Atlas → **Database Access** → **Add New Database User**.
 2. **Authentication**: Password.
 3. Choose a **username** and a **strong password** (save them; you will paste the password into the connection string).
-4. **Database User Privileges**: **Read and write to any database** (fine for one app), or restrict to `taskflow` if you create that DB name in the URI path.
+4. **Database User Privileges**: **Read and write to any database** (fine for one app), or restrict to `taskpilot` if you create that DB name in the URI path.
 
 ### Network access (so Render/Railway can connect)
 
@@ -76,9 +76,9 @@ The server binds **`0.0.0.0:$PORT`** (needed for container health checks). If Mo
    If the password contains special characters (`@`, `#`, `/`, etc.), **URL-encode** it (Atlas UI often has “Copy” that encodes for you).
 6. **Add a database name** before the query string so data goes to one DB, e.g.:
 
-   `mongodb+srv://MYUSER:MYPASS@cluster0.xxxxx.mongodb.net/taskflow?retryWrites=true&w=majority`
+   `mongodb+srv://MYUSER:MYPASS@cluster0.xxxxx.mongodb.net/taskpilot?retryWrites=true&w=majority`
 
-   Here `taskflow` is the database name (you can change it; match what you want in Atlas).
+   Here `taskpilot` is the database name (you can change it; match what you want in Atlas).
 
 That full string is your **`MONGO_URI`**. You **do not** paste this into the frontend repo — only into the **backend** host’s environment variables (below).
 
@@ -94,10 +94,10 @@ Add these in the dashboard: **Settings → Environment** (names must match exact
 
 | Variable | Where you get it | Example |
 |----------|------------------|---------|
-| **`MONGO_URI`** | Atlas connection string (step 1.6) | `mongodb+srv://user:pass@cluster.../taskflow?retryWrites=true&w=majority` |
+| **`MONGO_URI`** | Atlas connection string (step 1.6) | `mongodb+srv://user:pass@cluster.../taskpilot?retryWrites=true&w=majority` |
 | **`JWT_SECRET`** | Generate a long random string (any password generator, 32+ chars) | `a1b2c3...` (keep secret) |
 | **`PORT`** | Often **automatic** on PaaS (Render/Railway set `PORT`). If the platform requires it, use their docs; your code already uses `process.env.PORT \|\| 5000`. | *(optional on many hosts)* |
-| **`CLIENT_ORIGINS`** | **Comma-separated** origins of your **live website** (no path, no trailing slash). Required when the UI is on another domain than the API. | `https://taskflow.vercel.app` or `https://taskflow.vercel.app,https://www.mydomain.com` |
+| **`CLIENT_ORIGINS`** | **Comma-separated** origins of your **live website** (no path, no trailing slash). Required when the UI is on another domain than the API. | `https://taskpilot.vercel.app` or `https://taskpilot.vercel.app,https://www.mydomain.com` |
 
 **Where to paste `MONGO_URI`:** only in the **backend** service’s environment variable named **`MONGO_URI`** (Render “Environment”, Railway “Variables”, etc.) — not in Vercel for the DB string.
 
@@ -108,7 +108,7 @@ Add these in the dashboard: **Settings → Environment** (names must match exact
 
 After deploy, open **`https://<your-api-host>/api/health`** in a browser. You should see JSON like `{"status":"OK",...}`.
 
-Copy your API **origin** (scheme + host, no path), e.g. `https://taskflow-api.onrender.com`. Your frontend will use **`https://taskflow-api.onrender.com/api`** as `VITE_API_URL` (see section 3).
+Copy your API **origin** (scheme + host, no path), e.g. `https://taskpilot-api.onrender.com`. Your frontend will use **`https://taskpilot-api.onrender.com/api`** as `VITE_API_URL` (see section 3).
 
 ---
 
@@ -126,8 +126,8 @@ Vite bakes env vars in at **build time**. Set this in **Vercel / Netlify / Cloud
 
 Examples:
 
-- `https://taskflow-api-xxxx.onrender.com/api`
-- `https://taskflow.up.railway.app/api`
+- `https://taskpilot-api-xxxx.onrender.com/api`
+- `https://taskpilot.up.railway.app/api`
 
 **Local development:** do **not** set `VITE_API_URL` (or leave it empty). The app uses **`/api`** and Vite’s proxy sends it to `http://localhost:5000`.
 
@@ -176,4 +176,4 @@ VITE_API_URL=https://your-api.onrender.com/api
 
 ## 6. Optional: local Mongo with Docker
 
-For **local** development only, you can use `docker compose up -d` at the repo root and `MONGO_URI=mongodb://127.0.0.1:27017/taskflow` in **`backend/.env`**. That Docker MongoDB is **not** used automatically when you deploy the UI/API to the cloud; production should use **Atlas** (or another managed Mongo you control).
+For **local** development only, you can use `docker compose up -d` at the repo root and `MONGO_URI=mongodb://127.0.0.1:27017/taskpilot` in **`backend/.env`**. That Docker MongoDB is **not** used automatically when you deploy the UI/API to the cloud; production should use **Atlas** (or another managed Mongo you control).

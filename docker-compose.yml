@@ -1,4 +1,4 @@
-# Local MongoDB for TaskFlow — run from repo root: docker compose up -d
+# Local MongoDB for TaskPilot — run from repo root: docker compose up -d
 services:
   mongo:
     image: mongo:7
@@ -6,9 +6,9 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - taskflow_mongo_data:/data/db
+      - taskpilot_mongo_data:/data/db
     environment:
-      MONGO_INITDB_DATABASE: taskflow
+      MONGO_INITDB_DATABASE: taskpilot
 
 volumes:
-  taskflow_mongo_data:
+  taskpilot_mongo_data:

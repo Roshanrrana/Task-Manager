@@ -1,20 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">TaskFlow</title>
+  <title id="title">TaskPilot</title>
   <defs>
     <linearGradient id="bg" x1="10" x2="54" y1="8" y2="56" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#4f46e5"/>
-      <stop offset=".58" stop-color="#2563eb"/>
-      <stop offset="1" stop-color="#14b8a6"/>
+      <stop stop-color="#0f7f70"/>
+      <stop offset=".62" stop-color="#123f39"/>
+      <stop offset="1" stop-color="#f59e0b"/>
     </linearGradient>
     <linearGradient id="sheet" x1="24" x2="45" y1="18" y2="47" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#ffffff"/>
-      <stop offset="1" stop-color="#dbeafe"/>
+      <stop stop-color="#fbfcf8"/>
+      <stop offset="1" stop-color="#e9fbf6"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="16" fill="url(#bg)"/>
-  <path fill="#0f172a" fill-opacity=".18" d="M17 18.5A7.5 7.5 0 0 1 24.5 11H47a7 7 0 0 1 7 7v28.5A7.5 7.5 0 0 1 46.5 54H24a7 7 0 0 1-7-7z"/>
-  <path fill="url(#sheet)" d="M20 17a5 5 0 0 1 5-5h16.9c1.33 0 2.6.53 3.54 1.46l5.1 5.1A5 5 0 0 1 52 22.1V47a5 5 0 0 1-5 5H25a5 5 0 0 1-5-5z"/>
-  <path fill="#bfdbfe" d="M42 13.25V21a2 2 0 0 0 2 2h7.75a4.9 4.9 0 0 0-1.21-2.44l-5.1-5.1A4.9 4.9 0 0 0 42 13.25"/>
-  <path fill="none" stroke="#2563eb" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m28 34 5 5 11-13"/>
-  <path fill="#0f172a" fill-opacity=".22" d="M28 45h16a2 2 0 1 1 0 4H28a2 2 0 1 1 0-4"/>
+  <rect width="64" height="64" rx="12" fill="url(#bg)"/>
+  <path fill="#0f1916" fill-opacity=".2" d="M13 18a7 7 0 0 1 7-7h28a7 7 0 0 1 7 7v30a7 7 0 0 1-7 7H20a7 7 0 0 1-7-7z"/>
+  <path fill="url(#sheet)" d="M16 15a5 5 0 0 1 5-5h22a5 5 0 0 1 5 5v34a5 5 0 0 1-5 5H21a5 5 0 0 1-5-5z"/>
+  <path fill="#0f7f70" d="M16 15a5 5 0 0 1 5-5h5v44h-5a5 5 0 0 1-5-5z"/>
+  <path fill="none" stroke="#0f7f70" stroke-linecap="round" stroke-width="4" d="M32 24h9M32 34h9M32 44h9"/>
+  <path fill="none" stroke="#f59e0b" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m21.5 30 3 3 6-8"/>
+  <path fill="none" stroke="#fbfcf8" stroke-linecap="round" stroke-width="3" d="M21 18h1M21 42h1"/>
 </svg>

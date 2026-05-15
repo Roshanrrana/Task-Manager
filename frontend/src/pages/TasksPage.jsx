@@ -42,28 +42,32 @@ const TasksPage = () => {
   return (
     <div className="space-y-6">
       {/* Filters */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex items-center gap-2 text-dark-400">
-          <IoFunnelOutline size={18} />
-          <span className="text-sm font-medium">Filters:</span>
+      <div className="rounded-lg border border-dark-800 bg-dark-900 p-4 shadow-sm">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-center gap-2 text-dark-400">
+            <IoFunnelOutline size={18} />
+            <span className="text-sm font-semibold uppercase text-primary-700">Task filters</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <select value={statusFilter} onChange={e => { setLoading(true); setStatusFilter(e.target.value); }}
+              className="rounded-lg border border-dark-800 bg-dark-950 px-3 py-2 text-sm text-dark-200 transition-all focus:outline-none focus:ring-2 focus:ring-primary-500/20">
+              <option value="">All Status</option>
+              <option value="todo">Todo</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+            <select value={priorityFilter} onChange={e => { setLoading(true); setPriorityFilter(e.target.value); }}
+              className="rounded-lg border border-dark-800 bg-dark-950 px-3 py-2 text-sm text-dark-200 transition-all focus:outline-none focus:ring-2 focus:ring-primary-500/20">
+              <option value="">All Priority</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+            {(statusFilter || priorityFilter) && (
+              <button onClick={() => { setStatusFilter(''); setPriorityFilter(''); }} className="rounded-md px-2 py-1 text-xs font-medium text-primary-700 transition-colors hover:bg-primary-50">Clear filters</button>
+            )}
+          </div>
         </div>
-        <select value={statusFilter} onChange={e => { setLoading(true); setStatusFilter(e.target.value); }}
-          className="px-3 py-2 bg-dark-900 border border-dark-800 rounded-xl text-sm text-dark-200 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
-          <option value="">All Status</option>
-          <option value="todo">Todo</option>
-          <option value="in-progress">In Progress</option>
-          <option value="completed">Completed</option>
-        </select>
-        <select value={priorityFilter} onChange={e => { setLoading(true); setPriorityFilter(e.target.value); }}
-          className="px-3 py-2 bg-dark-900 border border-dark-800 rounded-xl text-sm text-dark-200 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all">
-          <option value="">All Priority</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-        </select>
-        {(statusFilter || priorityFilter) && (
-          <button onClick={() => { setStatusFilter(''); setPriorityFilter(''); }} className="text-xs text-primary-400 hover:text-primary-300">Clear filters</button>
-        )}
       </div>
 
       {/* Tasks List */}
@@ -75,9 +79,9 @@ const TasksPage = () => {
           </p>
         </div>
       ) : (
-        <div className="bg-dark-900 border border-dark-800 rounded-2xl overflow-hidden">
+        <div className="overflow-hidden rounded-lg border border-dark-800 bg-dark-900 shadow-sm">
           {/* Table Header */}
-          <div className="hidden md:grid md:grid-cols-12 gap-4 px-6 py-3 bg-dark-800/50 text-xs font-medium text-dark-500 uppercase tracking-wider">
+          <div className="hidden gap-4 border-b border-dark-800 bg-dark-950 px-6 py-3 text-xs font-semibold uppercase text-dark-500 md:grid md:grid-cols-12">
             <div className="col-span-4">Task</div>
             <div className="col-span-2">Project</div>
             <div className="col-span-2">Assigned To</div>
@@ -89,19 +93,19 @@ const TasksPage = () => {
           {/* Table Body */}
           <div className="divide-y divide-dark-800">
             {tasks.map(task => (
-              <div key={task._id} className={`grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 px-6 py-4 hover:bg-dark-800/30 transition-colors items-center ${isOverdue(task.dueDate, task.status) ? 'border-l-2 border-l-red-500' : ''}`}>
+              <div key={task._id} className={`grid grid-cols-1 items-center gap-2 px-6 py-4 transition-colors hover:bg-primary-50 md:grid-cols-12 md:gap-4 ${isOverdue(task.dueDate, task.status) ? 'border-l-4 border-l-red-500' : ''}`}>
                 <div className="col-span-4 min-w-0">
                   <p className="font-medium text-dark-200 truncate">{task.title}</p>
                   {task.description && <p className="text-xs text-dark-500 truncate mt-0.5">{task.description}</p>}
                 </div>
                 <div className="col-span-2">
-                  <span className="text-sm text-dark-400">{task.project?.title || '—'}</span>
+                  <span className="text-sm text-dark-400">{task.project?.title || '-'}</span>
                 </div>
                 <div className="col-span-2">
                   <div className="flex items-center gap-2">
                     {task.assignedTo ? (
                       <>
-                        <div className="w-6 h-6 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0">
+                        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary-100 text-[10px] font-bold text-primary-800">
                           {task.assignedTo.name?.charAt(0)?.toUpperCase()}
                         </div>
                         <span className="text-sm text-dark-300 truncate">{task.assignedTo.name}</span>
@@ -120,7 +124,7 @@ const TasksPage = () => {
                 <div className="col-span-2">
                   {(user?.role === 'admin' || task.assignedTo?._id === user?._id) ? (
                     <select value={task.status} onChange={e => handleStatusChange(task._id, e.target.value)}
-                      className="px-2 py-1 bg-dark-800 border border-dark-700 rounded-lg text-xs text-dark-200 focus:outline-none focus:ring-1 focus:ring-primary-500 w-full">
+                      className="w-full rounded-md border border-dark-800 bg-dark-950 px-2 py-1 text-xs text-dark-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20">
                       <option value="todo">Todo</option>
                       <option value="in-progress">In Progress</option>
                       <option value="completed">Completed</option>

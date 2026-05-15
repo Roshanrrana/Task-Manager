@@ -17,7 +17,7 @@ const app = express();
 
 app.get('/api', (_req, res) => {
   res.status(200).json({
-    message: 'TaskFlow API is running',
+    message: 'TaskPilot API is running',
     health: '/api/health',
     routes: {
       auth: '/api/auth',
@@ -76,7 +76,7 @@ const requireDatabase = (_req, res, next) => {
   }
 
   return res.status(503).json({
-    message: 'Database connection unavailable. Set MONGO_URI, MONGODB_URI, or MONGO_URL in Railway variables and check MongoDB Atlas Network Access.',
+    message: 'Database connection unavailable. Start local MongoDB on 127.0.0.1:27017 or set MONGO_URI/MONGODB_URI/MONGO_URL to a reachable MongoDB Atlas connection string.',
     mongo: {
       connected: false,
       readyState: mongoose.connection.readyState,
@@ -96,14 +96,14 @@ app.use('/api/projects', requireDatabase, require('./routes/projectRoutes'));
 app.use('/api/tasks', requireDatabase, require('./routes/taskRoutes'));
 app.use('/api/dashboard', requireDatabase, require('./routes/dashboardRoutes'));
 
-// Health check — includes which MongoDB the process is using (helps Atlas vs local / taskflow vs test).
+// Health check — includes which MongoDB the process is using (helps Atlas vs local / taskpilot vs test).
 app.get('/api/health', (req, res) => {
   res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
   const mongoReady = mongoose.connection.readyState === 1;
   res.json({
     _healthVersion: 2,
     status: mongoReady ? 'OK' : 'DEGRADED',
-    message: 'TaskFlow API is running',
+    message: 'TaskPilot API is running',
     mongo: {
       connected: mongoReady,
       readyState: mongoose.connection.readyState,
@@ -135,12 +135,12 @@ if (staticDir && indexFile) {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5000;
 
 if (require.main === module) {
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server listening on 0.0.0.0:${PORT} (required for Docker / Railway health checks)`);
-    console.log(`TaskFlow server build: mongo-health-v2 (GET /api/health includes "mongo" + "_healthVersion")`);
+    console.log(`TaskPilot server build: mongo-health-v2 (GET /api/health includes "mongo" + "_healthVersion")`);
   });
 }
 

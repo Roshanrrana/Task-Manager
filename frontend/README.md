@@ -1,6 +1,6 @@
-# TaskFlow Frontend
+# TaskPilot Frontend
 
-TaskFlow is a project and task management dashboard for teams. This frontend includes authentication pages, dashboard metrics, project management, task tracking, and profile views.
+TaskPilot is a project and task management dashboard for teams. This frontend includes authentication pages, a command-center dashboard, project management, task tracking, and profile views.
 
 ## Scripts
 

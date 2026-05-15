@@ -10,9 +10,12 @@ const API = axios.create({
   },
 });
 
+const TOKEN_KEYS = ['taskpilot_token', 'taskflow_token'];
+const USER_KEYS = ['taskpilot_user', 'taskflow_user'];
+
 API.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('taskflow_token');
+    const token = TOKEN_KEYS.map((key) => localStorage.getItem(key)).find(Boolean);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -25,8 +28,7 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('taskflow_token');
-      localStorage.removeItem('taskflow_user');
+      [...TOKEN_KEYS, ...USER_KEYS].forEach((key) => localStorage.removeItem(key));
       window.location.href = '/login';
     }
     return Promise.reject(error);
