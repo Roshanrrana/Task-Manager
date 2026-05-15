@@ -301,7 +301,7 @@ Some important routes are:
 
 # Deployment
 
-The frontend is deployed on Vercel and the backend API is deployed on Railway.
+The complete App (Frontend + Backend) is deployed on Railway.
 
 MongoDB Atlas is used as the cloud database.
 
